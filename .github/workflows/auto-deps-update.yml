@@ -14,6 +14,9 @@ on:
         required: false
         type: string
         default: '24'
+    secrets:
+      PAT:
+        required: true
 
 permissions:
   contents: write
@@ -65,7 +68,7 @@ jobs:
         if: steps.changes.outputs.is_deps_updated == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           branch: auto-dep-fix
           base: main
           title: 'Auto dependency fix'

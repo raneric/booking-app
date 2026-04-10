@@ -27,6 +27,8 @@ jobs:
 
   auto-update-api-deps-if-vulnerability-found:
     uses: ./.github/workflows/auto-deps-update.yml
+    secrets:
+      PAT: ${{ secrets.PAT_SECRET }}
     with:
       working-dir: 'server'
       should-run-unit-test: true
