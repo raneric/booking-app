@@ -2,6 +2,12 @@ name: booking-api-app-build
 run-name: Build and Push Docker Image for booking-api-app
 on:
   workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/package*.json'
 jobs:
   unit-test:
     runs-on: ubuntu-latest
@@ -33,6 +39,9 @@ jobs:
 
   build-push-api-image:
     needs: [check-deps-vulnerability]
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, 'npm audit')
     uses: ./.github/workflows/build-login-push-image.yml
     with:
       image-repo: 'booking-api'
