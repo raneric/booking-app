@@ -1,10 +1,9 @@
 name: auto-merge dependency PR
+run-name: Run automatic merge if PR are from auto-deps-check
 
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize, ready_for_review]
-  pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [opened]
 
 permissions:
   contents: write
@@ -34,4 +33,21 @@ jobs:
 
             core.setOutput('mergeable', String(prData.mergeable));
             core.setOutput('mergeable_state', prData.mergeable_state);
-            console.log(String(prData.mergeable));
+
+      - name: Auto merge Pull Request
+        if: steps.mergeable.outputs.mergeable == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const mergeResponse = await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              commit_title: 'chore: auto fix vulnerabilities',
+              commit_message: 'Automated npm audit fix and dependency update',
+              merge_method: 'squash',
+            });
+            core.info(`Merge status: ${mergeResponse.data.merged ? 'merged' : 'not merged'}`);
+            core.setOutput('merged', String(mergeResponse.data.merged));

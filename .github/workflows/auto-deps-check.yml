@@ -27,6 +27,8 @@ jobs:
     uses: ./.github/workflows/auto-deps-update.yml
     needs: check-api-deps-vulnerability
     if: needs.check-api-deps-vulnerability.outputs.has_vulnerability == 'true'
+    secrets:
+      PAT: ${{ secrets.PAT_SECRET }}
     with:
       working-dir: 'server'
       should-run-unit-test: true
@@ -41,5 +43,7 @@ jobs:
     uses: ./.github/workflows/auto-deps-update.yml
     needs: check-react-deps-vulnerability
     if: needs.check-react-deps-vulnerability.outputs.has_vulnerability == 'true'
+    secrets:
+      PAT: ${{ secrets.PAT_SECRET }}
     with:
       working-dir: 'client'
