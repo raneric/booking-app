@@ -1,4 +1,11 @@
-### Setup Instructions
+# Actions badges
+###   **API CI action badge**  
+   [![booking-api-app-build](https://github.com/raneric/booking-app/actions/workflows/api-ci.yml/badge.svg)](https://github.com/raneric/booking-app/actions/workflows/api-ci.yml)
+###   **Front CI action badge**   
+   [![booking-react-app-build](https://github.com/raneric/booking-app/actions/workflows/front-ci.yml/badge.svg)](https://github.com/raneric/booking-app/actions/workflows/front-ci.yml)
+###   **Auto-dependency check badge**   
+   [![auto-deps-check](https://github.com/raneric/booking-app/actions/workflows/auto-deps-check.yml/badge.svg)](https://github.com/raneric/booking-app/actions/workflows/auto-deps-check.yml)
+# Setup Instructions
 
 Follow these steps to set up and run the project:
 
