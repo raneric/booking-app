@@ -39,6 +39,35 @@ services:
     depends_on:
       - server
 
+  postgres_exporter:
+    image: prometheuscommunity/postgres-exporter
+    container_name: postgres_exporter
+    environment:
+      DATA_SOURCE_NAME: 'postgresql://odoo_stocks:iloCGIdiMzCMLF9wFcx@local-postgres:5432/check_and_visit_etl_db?sslmode=disable'
+    ports:
+      - '9187:9187'
+    networks:
+      - local-shared-network
+    depends_on:
+      - prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3002:3000'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - local-shared-network
+    depends_on:
+      - prometheus
+
 networks:
   local-shared-network:
     external: true
+
+volumes:
+  grafana-storage:

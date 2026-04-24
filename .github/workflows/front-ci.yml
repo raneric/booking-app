@@ -3,7 +3,8 @@ run-name: Build and Push Docker Image for booking-react-app
 on:
   workflow_dispatch:
 
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
     paths:
@@ -20,7 +21,7 @@ jobs:
     needs: [check-deps-vulnerability]
     if: |
       github.event_name == 'workflow_dispatch' ||
-      contains(github.event.head_commit.message, 'npm audit')
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.title, 'Auto dependency fix'))
 
     uses: ./.github/workflows/build-login-push-image.yml
     with:

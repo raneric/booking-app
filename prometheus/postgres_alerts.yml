@@ -1,0 +1,11 @@
+groups:
+  - name: postgres-alerts
+    rules:
+      - alert: PostgresDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'PostgreSQL is down'
+          description: 'PostgreSQL exporter reports pg_up = 0'
